@@ -10,7 +10,18 @@
             <nav class="navbar navbar-default" role="navigation">
                <div class="collapse navbar-collapse" id="navbar-brand-centered">
                    <ul class="nav navbar-nav">
-                       <li class="active"><a href="/">Repositories</a></li>
+                   @if( !isset($baseurl)|| $baseurl!="authorizations")
+                        <li class="active"><a href="/">Repositories</a></li>
+                    @else
+                        <li ><a href="/">Repositories</a></li>
+                    @endif
+                   </ul>
+                   <ul class="nav navbar-nav">
+                    @if(isset($baseurl)&&$baseurl=="authorizations")
+                        <li class="active"><a href="/authorizations">Authorizations</a></li>
+                    @else
+                        <li ><a href="/authorizations">Authorizations</a></li>
+                    @endif
                    </ul>
                </div>
             </nav>

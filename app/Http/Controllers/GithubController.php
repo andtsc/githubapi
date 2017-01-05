@@ -141,7 +141,8 @@ class GithubController extends Controller
     try {
       $authorizations = $this->client->api('authorizations')->all();
 
-      return view('authorizations', ['authorizations' => $authorizations]);
+      return view('authorizations', [
+        'authorizations' => $authorizations]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }

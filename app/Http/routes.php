@@ -22,8 +22,8 @@ Route::get('/commits', ['uses' => 'GithubController@commits', 'as' => 'commits']
 Route::get('/authorizations', ['uses' => 'GithubController@authorizations', 'as' => 'authorizations']);
 
 
-Route::post('/events', ['uses' => 'GithubController@storeEvents']);
+// Route::post('/events', ['uses' => 'GithubController@storeEvents']);
 
-Route::get('/reports/contributions.json', ['uses' => 'GithubController@contributionsJson']);
+// Route::get('/reports/contributions.json', ['uses' => 'GithubController@contributionsJson']);
 
-Route::get('/reports/contributions', ['uses' => 'GithubController@contributions']);
+// Route::get('/reports/contributions', ['uses' => 'GithubController@contributions']);
