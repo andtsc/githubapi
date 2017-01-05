@@ -13,6 +13,7 @@
     {!! Form::open(['url' => '/update', 'method' => 'POST']) !!}
         <input name="path" value="{{ $path }}" type="hidden"/>
         <input name="repo" value="{{ $repo }}" type="hidden"/>
+        <input name="branch" value="{{ $branch }}" type="hidden"/>
         <div class="form-group">
             <label for="content">File content:</label>
             <textarea class="form-control" name="content" id="content" cols="30" rows="10">{{ $content }}</textarea>

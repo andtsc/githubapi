@@ -2,8 +2,8 @@
 
 @section('content')
 <header>
-    @if($parent && $parent !== '.')
-        <a href="/finder?repo={{ $repo }}&path={{ $parent }}"><h3 class="glyphicon glyphicon-arrow-left"></h3></a>
+    @if($parent!==$path)
+        <a href="/finder?repo={{ $repo }}&path={{ $parent }}&branch={{ $branch }}"><h3 class="glyphicon glyphicon-arrow-left"></h3></a>
     @else
         <a href="/"><h3 class="glyphicon glyphicon-arrow-left"></h3></a>
     @endif

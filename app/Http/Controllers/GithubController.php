@@ -49,7 +49,12 @@ class GithubController extends Controller
     try {
       $result = $this->client->api('repo')->contents()->show($this->username, $repo, $path,$branch);
 
-      return View::make('finder', ['parent' => dirname($path), 'branch' => $branch , 'repo' => $repo, 'items' => $result]);
+      return View::make('finder', [
+        'parent' => dirname($path),
+        'path' => $path , 
+        'branch' => $branch , 
+        'repo' => $repo, 
+        'items' => $result]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }
@@ -87,19 +92,25 @@ class GithubController extends Controller
     $path = Input::get('path');
     $content = Input::get('content');
     $commit = Input::get('commit');
+    $branch = Input::get('branch');
 
     try {
-      $oldFile = $this->client->api('repo')->contents()->show($this->username, $repo, $path);
+      $oldFile = $this->client->api('repo')->contents()->show($this->username, $repo, $path,$branch);
       $result = $this->client->api('repo')->contents()->update(
           $this->username,
           $repo,
           $path,
           $content,
           $commit,
-          $oldFile['sha']
+          $oldFile['sha'],
+          $branch
       );
 
-      return \Redirect::route('commits', ['path' => $path, 'repo' => $repo]);
+      return \Redirect::route('commits', [
+        'path' => $path, 
+        'repo' => $repo, 
+        'parent' => dirname($path),
+        'branch' => $branch]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }
@@ -109,11 +120,17 @@ class GithubController extends Controller
   {
     $repo = Input::get('repo');
     $path = Input::get('path');
+    $branch = Input::get('branch');
 
     try {
-      $commits = $this->client->api('repo')->commits()->all($this->username, $repo, ['path' => $path]);
+      $commits = $this->client->api('repo')->commits()->all($this->username, $repo, ['path' => $path,'branch' => $branch]);
 
-      return View::make('commits', ['commits' => $commits]);
+      return View::make('commits', [
+        'path' => $path, 
+        'repo' => $repo, 
+        'parent' => dirname($path),
+        'branch' => $branch,
+        'commits' => $commits]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }
