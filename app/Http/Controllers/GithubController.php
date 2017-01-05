@@ -38,7 +38,7 @@ class GithubController extends Controller
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }
-  }
+  }//repos
 
   public function finder()
   {
@@ -49,7 +49,7 @@ class GithubController extends Controller
     try {
       $result = $this->client->api('repo')->contents()->show($this->username, $repo, $path,$branch);
 
-      return View::make('finder', ['parent' => dirname($path), 'repo' => $repo, 'items' => $result]);
+      return View::make('finder', ['parent' => dirname($path), 'branch' => $branch , 'repo' => $repo, 'items' => $result]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
     }
@@ -59,9 +59,10 @@ class GithubController extends Controller
   {
     $repo = Input::get('repo');
     $path = Input::get('path');
+    $branch = Input::get('branch');
 
     try {
-      $file = $this->client->api('repo')->contents()->show($this->username, $repo, $path);
+      $file = $this->client->api('repo')->contents()->show($this->username, $repo, $path, $branch);
 
       $content = base64_decode($file['content']);
       $commitMessage = "Updated file " . $file['name'];
@@ -71,7 +72,9 @@ class GithubController extends Controller
           'path'          => $path,
           'repo'          => $repo,
           'content'       => $content,
-          'commitMessage' => $commitMessage
+          'commitMessage' => $commitMessage,
+          'parent' => dirname($path),
+          'branch' => $branch
       ]);
     } catch (\RuntimeException $e) {
       $this->handleAPIException($e);
